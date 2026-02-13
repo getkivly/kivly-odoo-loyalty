@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Crear registro de configuración inicial -->
+        <record id="kivly_config_default" model="kivly.config">
+            <field name="name">Configuración de Kivly</field>
+            <field name="api_token"></field>
+            <field name="location_id"></field>
+            <field name="base_url">https://api.getkivly.com</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

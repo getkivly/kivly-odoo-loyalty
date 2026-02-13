@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de formulario extendida de res.partner -->
+        <record id="view_partner_form_kivly" model="ir.ui.view">
+            <field name="name">res.partner.form.kivly</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!-- Agregar botones en el header -->
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <!-- Campos invisibles para las condiciones de los botones -->
+                        <field name="phone" invisible="1"/>
+                        <field name="kivly_id" invisible="1"/>
+                        
+                        <button name="action_sync_to_kivly" 
+                                string="Sincronizar con Kivly" 
+                                type="object" 
+                                class="btn-secondary"
+                                invisible="not phone"/>
+                        <button name="action_fetch_kivly_points" 
+                                string="Actualizar Puntos" 
+                                type="object" 
+                                class="btn-secondary"
+                                invisible="not kivly_id"/>
+                    </header>
+                </xpath>
+                
+                <!-- Agregar página de Kivly en el notebook -->
+                <xpath expr="//notebook" position="inside">
+                    <page string="Kivly Loyalty" name="kivly_loyalty" invisible="customer_rank == 0">
+                        <!-- Campos invisibles necesarios para las condiciones -->
+                        <field name="customer_rank" invisible="1"/>
+                        <field name="phone" invisible="1"/>
+                        
+                        <group>
+                            <group string="Información de Kivly">
+                                <field name="kivly_id" readonly="1"/>
+                                <field name="kivly_points" readonly="1"/>
+                                <field name="last_kivly_sync" readonly="1"/>
+                            </group>
+                            <group string="Configuración">
+                                <field name="kivly_sync_enabled"/>
+                            </group>
+                        </group>
+                        <group>
+                            <div invisible="kivly_id">
+                                <p>
+                                    <i class="fa fa-info-circle"/> Este cliente aún no está sincronizado con Kivly.
+                                </p>
+                                <p invisible="phone">
+                                    <b>⚠️ Necesita un número de teléfono para sincronizar.</b>
+                                </p>
+                            </div>
+                            <div invisible="not kivly_id">
+                                <p>
+                                    <i class="fa fa-check-circle text-success"/> Cliente sincronizado con Kivly exitosamente.
+                                </p>
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Vista de lista extendida -->
+        <record id="view_partner_tree_kivly" model="ir.ui.view">
+            <field name="name">res.partner.tree.kivly</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <field name="phone" position="after">
+                    <field name="kivly_points" optional="hide"/>
+                    <field name="kivly_id" optional="hide"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Filtro de búsqueda -->
+        <record id="view_res_partner_filter_kivly" model="ir.ui.view">
+            <field name="name">res.partner.search.kivly</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='customer']" position="after">
+                    <separator/>
+                    <filter string="Clientes Kivly" name="kivly_customers" 
+                            domain="[('kivly_id', '!=', False)]"/>
+                    <filter string="Sin sincronizar" name="not_synced" 
+                            domain="[('kivly_id', '=', False), ('customer_rank', '>', 0), ('phone', '!=', False)]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

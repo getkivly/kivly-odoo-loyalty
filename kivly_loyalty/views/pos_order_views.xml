@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Extender la vista de formulario de pos.order -->
+        <record id="view_pos_order_form_inherit_kivly" model="ir.ui.view">
+            <field name="name">pos.order.form.inherit.kivly</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+                <!-- Agregar botón en el header -->
+                <xpath expr="//header" position="inside">
+                    <button name="action_resync_kivly" 
+                            string="Enviar a Kivly" 
+                            type="object" 
+                            class="btn-secondary"
+                            invisible="state not in ['paid', 'done', 'invoiced']"/>
+                </xpath>
+                
+                <!-- Agregar campos de Kivly en el formulario -->
+                <xpath expr="//page[@name='extra']//group[@name='other_information']" position="after">
+                    <group string="Información de Kivly" name="kivly_info">
+                        <field name="kivly_synced" readonly="1"/>
+                        <field name="kivly_sync_date" readonly="1" invisible="not kivly_synced"/>
+                        <field name="kivly_order_id" readonly="1" invisible="not kivly_synced"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Extender la vista de lista de pos.order -->
+        <record id="view_pos_order_tree_inherit_kivly" model="ir.ui.view">
+            <field name="name">pos.order.tree.inherit.kivly</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_total']" position="after">
+                    <field name="kivly_synced" widget="boolean_toggle"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Filtro de búsqueda para órdenes sincronizadas -->
+        <record id="view_pos_order_search_inherit_kivly" model="ir.ui.view">
+            <field name="name">pos.order.search.inherit.kivly</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <separator/>
+                    <filter string="Sincronizado con Kivly" 
+                            name="kivly_synced" 
+                            domain="[('kivly_synced', '=', True)]"/>
+                    <filter string="No sincronizado con Kivly" 
+                            name="kivly_not_synced" 
+                            domain="[('kivly_synced', '=', False), ('state', 'in', ['paid', 'done'])]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

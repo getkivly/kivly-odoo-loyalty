@@ -1,0 +1,64 @@
+<odoo>
+  <data>
+    <menuitem id="kivly_root_menu"
+              name="Kivly Loyalty"
+              sequence="10"
+              parent="point_of_sale.menu_point_root"/>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="kivly_loyalty.list">
+      <field name="name">kivly_loyalty list</field>
+      <field name="model">kivly_loyalty.kivly_loyalty</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="kivly_loyalty.action_window">
+      <field name="name">kivly_loyalty window</field>
+      <field name="res_model">kivly_loyalty.kivly_loyalty</field>
+      <field name="view_mode">list,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="kivly_loyalty.action_server">
+      <field name="name">kivly_loyalty server</field>
+      <field name="model_id" ref="model_kivly_loyalty_kivly_loyalty"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="kivly_loyalty" id="kivly_loyalty.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="kivly_loyalty.menu_1" parent="kivly_loyalty.menu_root"/>
+    <menuitem name="Menu 2" id="kivly_loyalty.menu_2" parent="kivly_loyalty.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="kivly_loyalty.menu_1_list" parent="kivly_loyalty.menu_1"
+              action="kivly_loyalty.action_window"/>
+    <menuitem name="Server to list" id="kivly_loyalty" parent="kivly_loyalty.menu_2"
+              action="kivly_loyalty.action_server"/>
+-->
+  </data>
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- Ocultar botón Customer/Partner en ActionPad (vista móvil) -->
+    <t t-name="point_of_sale.ActionpadWidget" t-inherit="point_of_sale.ActionpadWidget" t-inherit-mode="extension">
+        <xpath expr="//SelectPartnerButton" position="replace"/>
+    </t>
+
+    <!-- Agregar botón Kivly a ControlButtons y ocultar botón Customer/Partner -->
+    <t t-name="point_of_sale.ControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension">
+        <!-- Ocultar botón Customer/Partner (el cliente se gestiona desde Kivly) -->
+        <xpath expr="//SelectPartnerButton" position="replace"/>
+        <!-- Insertar el botón de Kivly después del botón InternalNoteButton -->
+        <xpath expr="//InternalNoteButton" position="after">
+            <button t-if="!props.showRemainingButtons"
+                    class="btn btn-secondary btn-lg flex-shrink-0"
+                    t-on-click="() => this.onClickKivly()">
+                <i class="fa fa-gift me-1"/>
+                Kivly
+            </button>
+        </xpath>
+    </t>
+
+    <!-- Modal de Kivly -->
+    <t t-name="kivly_loyalty.KivlyModal">
+        <Dialog title="'Kivly - Recompensas'" contentClass="'kivly-modal-dialog'">
+            <div class="kivly-modal-content">
+                <!-- Estado de carga -->
+                <div t-if="state.loading" class="kivly-loading text-center p-5">
+                    <i class="fa fa-spinner fa-spin fa-3x text-primary"/>
+                    <p class="mt-3">Cargando Kivly...</p>
+                </div>
+                
+                <!-- Error -->
+                <div t-if="state.error" class="kivly-error text-center p-5">
+                    <i class="fa fa-exclamation-triangle fa-3x text-danger"/>
+                    <p class="mt-3" t-esc="state.error"/>
+                </div>
+                
+                <!-- Iframe de Kivly -->
+                <iframe 
+                    t-if="state.iframeUrl and !state.loading and !state.error"
+                    t-att-src="state.iframeUrl"
+                    class="kivly-iframe"
+                    frameborder="0"
+                    allow="camera"
+                />
+            </div>
+        </Dialog>
+    </t>
+
+</templates>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de formulario para configuración de Kivly -->
+        <record id="view_kivly_config_form" model="ir.ui.view">
+            <field name="name">kivly.config.form</field>
+            <field name="model">kivly.config</field>
+            <field name="arch" type="xml">
+                <form string="Configuración de Kivly">
+                    <header>
+                        <button name="action_test_connection" string="Probar Conexión" type="object" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Credenciales de API">
+                                <field name="api_token" password="True" placeholder="Ingrese su API Token"/>
+                                <field name="location_id" placeholder="Ingrese su Location ID"/>
+                                <field name="base_url" placeholder="https://api.getkivly.com"/>
+                            </group>
+                            <group string="Estado">
+                                <field name="active"/>
+                                <field name="last_sync" readonly="1"/>
+                                <field name="sync_status" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Configuración de POS">
+                                <field name="loyalty_url" placeholder="https://api.getkivly.com/api/v1/loyalty/TOKEN_FIRMADO"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Sincronización de Clientes">
+                                <group>
+                                    <group string="Configuración de Sincronización">
+                                        <field name="customer_sync_enabled"/>
+                                        <field name="customer_sync_only_with_phone"/>
+                                        <field name="customer_deletion_action"
+                                               widget="radio"
+                                               options="{'horizontal': false}"/>
+                                    </group>
+                                    <group string="Seguridad de Webhooks">
+                                        <field name="webhook_secret" password="True" placeholder="Clave secreta para validación HMAC"/>
+                                        <field name="webhook_url" widget="url"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Información">
+                                <div class="bg-100 rounded p-3 mb-3">
+                                    <h5>¿Dónde obtener las credenciales?</h5>
+                                    <p class="mb-3 text-muted">
+                                        Configura API Token, Location ID y la URL de Loyalty desde el dashboard de Kivly.
+                                    </p>
+                                    <a href="https://getkivly.com/dashboard/integrations" target="_blank" class="btn btn-primary" role="button">
+                                        <i class="fa fa-external-link me-1"/> Ir al Dashboard de Kivly
+                                    </a>
+                                </div>
+                                <group string="Glosario">
+                                    <group>
+                                        <p class="mb-2"><b>API Token</b></p>
+                                        <p class="text-muted mb-3">Token de autenticación para conectar con la API de Kivly.</p>
+                                        <p class="mb-2"><b>Location ID</b></p>
+                                        <p class="text-muted mb-0">Identificador único de tu ubicación o negocio en Kivly.</p>
+                                    </group>
+                                    <group>
+                                        <p class="mb-2"><b>URL de Loyalty (POS)</b></p>
+                                        <p class="text-muted mb-0">URL con token firmado para el iframe de recompensas. Se genera en el dashboard.</p>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de lista -->
+        <record id="view_kivly_config_tree" model="ir.ui.view">
+            <field name="name">kivly.config.list</field>
+            <field name="model">kivly.config</field>
+            <field name="arch" type="xml">
+                <list string="Configuración de Kivly" create="false" delete="false">
+                    <field name="name"/>
+                    <field name="location_id"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Acción para abrir la configuración -->
+        <record id="action_kivly_config" model="ir.actions.act_window">
+            <field name="name">Configuración</field>
+            <field name="res_model">kivly.config</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+            <field name="res_id" ref="kivly_config_default"/>
+            <field name="context">{'form_view_initial_mode': 'edit', 'create': False, 'delete': False}</field>
+        </record>
+
+        <!-- Menú principal de configuración -->
+        <menuitem
+            id="menu_kivly_configuration"
+            name="Configuración"
+            parent="kivly_root_menu"
+            action="action_kivly_config"
+            sequence="1"/>
+    </data>
+</odoo>

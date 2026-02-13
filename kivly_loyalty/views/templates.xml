@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+        <!-- Template del botón Kivly -->
+        <template id="KivlyButton" name="Kivly Button">
+            <t t-name="KivlyButton" owl="1">
+                <button class="button control-button kivly-button" t-on-click="onClick">
+                    <svg class="kivly-button-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.89-8.9c.32-.65.5-1.38.5-2.16 0-.61-.46-1.11-1.06-1.18-.1-.01-.2-.01-.3-.01-.52 0-1.01.18-1.42.5-.32.25-.58.56-.76.92-.18.36-.27.76-.27 1.17 0 .66.25 1.26.66 1.72.41.46.98.74 1.6.74.2 0 .4-.03.59-.09l2.95 2.95c.26.26.68.26.94 0 .26-.26.26-.68 0-.94l-2.95-2.95c.34-.29.59-.68.72-1.13z"/>
+                        <circle cx="12" cy="8.94" r="1.5"/>
+                    </svg>
+                    Kivly
+                </button>
+            </t>
+        </template>
+
+        <!-- Template del modal Kivly -->
+        <template id="KivlyModal" name="Kivly Modal">
+            <t t-name="KivlyModal" owl="1">
+                <div class="popup popup-kivly-modal">
+                    <div class="kivly-modal-overlay" t-on-click.self="cancel">
+                        <div class="kivly-modal-container">
+                            <div class="kivly-modal-header">
+                                <h2 class="kivly-modal-title">Recompensas Kivly</h2>
+                                <button class="kivly-modal-close" t-on-click="cancel" aria-label="Cerrar">×</button>
+                            </div>
+                            <div class="kivly-modal-body">
+                                <div t-if="state.loading" class="kivly-modal-loading">
+                                    <div class="kivly-modal-spinner"></div>
+                                    <div class="kivly-modal-loading-text">Cargando Kivly...</div>
+                                </div>
+                                <div t-elif="state.error" class="kivly-modal-error">
+                                    <div class="kivly-modal-error-icon">⚠️</div>
+                                    <div class="kivly-modal-error-text" t-esc="state.error"></div>
+                                    <button class="kivly-modal-error-button" t-on-click="cancel">Cerrar</button>
+                                </div>
+                                <iframe
+                                    t-else=""
+                                    class="kivly-modal-iframe"
+                                    t-att-src="state.iframeUrl"
+                                    frameborder="0"
+                                    allow="camera"
+                                    sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+                                ></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

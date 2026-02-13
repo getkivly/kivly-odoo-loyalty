@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_config_form_kivly" model="ir.ui.view">
+        <field name="name">pos.config.form.kivly</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_settings_container')]//div[@groups='base.group_system']" position="before">
+                <setting string="Kivly Loyalty" help="Configure Kivly loyalty integration">
+                    <div class="content-group">
+                        <div class="row">
+                            <div class="col-lg-5 o_light_label">
+                                <label string="Discount Product" for="kivly_discount_product_id"/>
+                            </div>
+                            <div class="col-lg-7">
+                                <field name="kivly_discount_product_id" required="1"
+                                       domain="[('available_in_pos', '=', True)]"
+                                       context="{'default_available_in_pos': True}"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12 text-muted small">
+                                Product used to apply discounts when customers redeem Kivly rewards.
+                            </div>
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Producto de descuento para recompensas Kivly -->
+        <record id="product_kivly_discount" model="product.product">
+            <field name="name">Descuento Kivly</field>
+            <field name="type">service</field>
+            <field name="list_price">0.0</field>
+            <field name="standard_price">0.0</field>
+            <field name="available_in_pos" eval="True"/>
+            <field name="sale_ok" eval="False"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="active" eval="True"/>
+            <field name="default_code">KIVLY_DISCOUNT</field>
+        </record>
+    </data>
+</odoo>
