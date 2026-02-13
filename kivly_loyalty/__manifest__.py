@@ -6,7 +6,7 @@
     'description': """
         Integración completa de Kivly con Odoo POS
         ==========================================
-        
+
         Características principales:
         ----------------------------
         * Sincronización automática de órdenes POS a Kivly
@@ -16,14 +16,14 @@
         * Notificaciones push a clientes
         * Webhooks seguros con validación HMAC SHA256
         * Gestión completa desde Odoo
-        
+
         Resultados comprobados:
         -----------------------
         * +31% en ventas
         * +23% en ticket medio
         * 78% tasa de apertura de notificaciones
         * Más de 800 clientes activos
-        
+
         Para más información: https://getkivly.com
     """,
 
@@ -55,6 +55,11 @@
             'kivly_loyalty/static/src/app/kivly/**/*',
         ],
     },
+
+    "images": [
+        'static/description/icon.png',
+        'static/description/thumbnail.png'
+    ],
 
     'installable': True,
     'application': True,
