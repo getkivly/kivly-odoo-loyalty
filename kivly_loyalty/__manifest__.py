@@ -58,7 +58,7 @@ Para más información: https://getkivly.com
     ],
 
     "assets": {
-        "point_of_sale.assets_prod": [
+        "point_of_sale._assets_pos": [
             "kivly_loyalty/static/src/app/kivly/**/*",
         ],
     },

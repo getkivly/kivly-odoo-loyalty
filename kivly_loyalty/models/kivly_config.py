@@ -14,25 +14,14 @@ class KivlyConfig(models.Model):
     _name = 'kivly.config'
     _description = 'Configuración de Kivly'
     _rec_name = 'name'
-    
-    _check_api_token_not_empty = models.Constraint(
-        "CHECK(api_token IS NULL OR api_token != '')",
-        'El API Token no puede ser una cadena vacía'
-    )
-    _check_location_id_not_empty = models.Constraint(
-        "CHECK(location_id IS NULL OR location_id != '')",
-        'El Location ID no puede ser una cadena vacía'
-    )
 
     name = fields.Char(string='Nombre', default='Configuración de Kivly', readonly=True)
     api_token = fields.Char(
         string='API Token',
-        required=True,
         help='Token de autenticación para la API de Kivly'
     )
     location_id = fields.Char(
         string='Location ID',
-        required=True,
         help='ID de ubicación para Kivly'
     )
     base_url = fields.Char(
@@ -155,7 +144,10 @@ class KivlyConfig(models.Model):
         """Envía la configuración al backend de Kivly - OBLIGATORIO"""
         self.ensure_one()
 
-        if not self.api_token or not self.location_id:
+        if (
+            not (self.api_token and self.api_token.strip())
+            or not (self.location_id and self.location_id.strip())
+        ):
             raise ValidationError(_('Debe proporcionar el API Token y Location ID'))
 
         # Construir URL completa
@@ -282,7 +274,10 @@ class KivlyConfig(models.Model):
         # Sincronizar OBLIGATORIAMENTE si se actualizaron las credenciales
         if 'api_token' in vals or 'location_id' in vals or 'base_url' in vals:
             for record in self:
-                if record.api_token and record.location_id:
+                if (
+                    record.api_token and record.api_token.strip()
+                    and record.location_id and record.location_id.strip()
+                ):
                     # Si falla, se lanza excepción y se hace rollback
                     record._setup_kivly_backend()
         
