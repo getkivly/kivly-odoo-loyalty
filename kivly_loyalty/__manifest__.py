@@ -45,11 +45,11 @@ Para más información: https://getkivly.com
         "data/kivly_config_data.xml",
         "data/kivly_product_data.xml",
 
+        "views/views.xml",
         "views/kivly_config_views.xml",
         "views/pos_config_views.xml",
         "views/pos_order_views.xml",
         "views/res_partner_views.xml",
-        "views/views.xml",
         "views/templates.xml",
     ],
 
