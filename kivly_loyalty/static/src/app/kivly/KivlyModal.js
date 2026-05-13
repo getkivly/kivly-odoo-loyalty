@@ -138,8 +138,8 @@ export class KivlyModal extends Component {
             const pct = parseFloat(data.percentage);
             const amt = parseFloat(data.amount);
             if (pct > 0 && pct <= 100) {
-                // Percentage: apply to order total (totalDue)
-                const total = order.totalDue ?? 0;
+                // Percentage: apply to the current POS order total.
+                const total = order.get_total_with_tax?.() ?? 0;
                 amount = Math.round((total * pct) / 100 * 100) / 100;
             } else if (amt > 0) {
                 // Fixed amount
@@ -244,7 +244,7 @@ export class KivlyModal extends Component {
             if (partnerId) {
                 const partner = pos.models["res.partner"].get(partnerId);
                 if (partner) {
-                    order.setPartner(partner);
+                    order.set_partner(partner);
                 }
             }
         } catch (error) {
@@ -268,7 +268,7 @@ export class KivlyModal extends Component {
             if (partners.length > 0) {
                 const partner = pos.models["res.partner"].get(partners[0].id);
                 if (partner) {
-                    this.props.order.setPartner(partner);
+                    this.props.order.set_partner(partner);
                 }
             }
         } catch (error) {

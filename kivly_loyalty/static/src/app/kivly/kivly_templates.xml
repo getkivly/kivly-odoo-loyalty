@@ -10,8 +10,8 @@
     <t t-name="point_of_sale.ControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension">
         <!-- Ocultar botón Customer/Partner (el cliente se gestiona desde Kivly) -->
         <xpath expr="//SelectPartnerButton" position="replace"/>
-        <!-- Insertar el botón de Kivly después del botón InternalNoteButton -->
-        <xpath expr="//InternalNoteButton" position="after">
+        <!-- Insertar el botón de Kivly después del botón de nota interna -->
+        <xpath expr="//OrderlineNoteButton" position="after">
             <button t-if="!props.showRemainingButtons"
                     class="btn btn-secondary btn-lg flex-shrink-0"
                     t-on-click="() => this.onClickKivly()">

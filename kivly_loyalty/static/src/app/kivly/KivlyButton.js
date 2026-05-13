@@ -10,8 +10,8 @@ import { KivlyModal } from "@kivly_loyalty/app/kivly/KivlyModal";
  */
 patch(ControlButtons.prototype, {
     onClickKivly() {
-        const order = this.pos.getOrder();
-        const partner = order?.getPartner();
+        const order = this.pos.get_order();
+        const partner = order?.get_partner();
 
         this.dialog.add(KivlyModal, {
             partner: partner,
